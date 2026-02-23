@@ -74,10 +74,9 @@ To build a machine learning model that predicts whether a student is likely to r
 
 These features were selected based on:
 
-Early availability
+1.Early availability
 
-Relevance to academic performance
+2.Relevance to academic performance
 
-Literature review comparison
+3.Literature review comparison
 
-🏗️ Project Structure
