@@ -3,7 +3,6 @@ import pandas as pd
 def preprocess_data(filepath):
     df = pd.read_csv(filepath, sep=';')
     df.columns = df.columns.str.strip()
-
     selected_columns = [
         'Age at enrollment',
         'Curricular units 1st sem (enrolled)',
@@ -19,5 +18,15 @@ def preprocess_data(filepath):
         'Graduate': 1,
         'Dropout': 0
     })
+    numeric_cols = df.columns.drop('Target')
+
+    for col in numeric_cols:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+
+
     df.dropna(inplace=True)
+    print("\n[Preprocessing]")
+    print("Shape:", df.shape)
+    print("Target distribution:\n", df['Target'].value_counts())
+
     return df
