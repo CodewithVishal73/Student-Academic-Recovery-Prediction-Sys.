@@ -20,14 +20,12 @@ warnings.filterwarnings("ignore")
 
 print("Training started...")
 
-# ================= LOAD DATA =================
 data = preprocess_data("../dataset/student_data.csv")
 print("Data loaded. Shape:", data.shape)
 
 X = data.drop('Target', axis=1)
 y = data['Target']
 
-# ================= EDA =================
 plt.figure(figsize=(6,4))
 sns.countplot(x='Target', data=data)
 plt.title("Class Distribution")
@@ -38,22 +36,18 @@ sns.heatmap(data.corr(), cmap='coolwarm')
 plt.title("Correlation Heatmap")
 plt.show()
 
-# ================= SPLIT =================
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# ================= SCALING =================
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# ================= MODEL STORAGE =================
 results = {}
 accuracies = {}
 predictions = {}
 
-# ---------- Logistic ----------
 lr = LogisticRegression(max_iter=1000, class_weight='balanced')
 lr.fit(X_train_scaled, y_train)
 lr_pred = lr.predict(X_test_scaled)
@@ -62,7 +56,6 @@ results["Logistic"] = f1_score(y_test, lr_pred)
 accuracies["Logistic"] = accuracy_score(y_test, lr_pred)
 predictions["Logistic"] = lr_pred
 
-# ---------- SVM ----------
 svm = SVC(kernel='rbf', C=10, gamma=0.05, probability=True)
 svm.fit(X_train_scaled, y_train)
 svm_pred = svm.predict(X_test_scaled)
@@ -71,7 +64,6 @@ results["SVM"] = f1_score(y_test, svm_pred)
 accuracies["SVM"] = accuracy_score(y_test, svm_pred)
 predictions["SVM"] = svm_pred
 
-# ---------- KNN ----------
 knn = KNeighborsClassifier(n_neighbors=9, weights='distance')
 knn.fit(X_train_scaled, y_train)
 knn_pred = knn.predict(X_test_scaled)
@@ -80,7 +72,6 @@ results["KNN"] = f1_score(y_test, knn_pred)
 accuracies["KNN"] = accuracy_score(y_test, knn_pred)
 predictions["KNN"] = knn_pred
 
-# ---------- Random Forest ----------
 rf = RandomForestClassifier(n_estimators=300, max_depth=10, random_state=42)
 rf.fit(X_train, y_train)
 rf_pred = rf.predict(X_test)
@@ -89,7 +80,6 @@ results["Random Forest"] = f1_score(y_test, rf_pred)
 accuracies["Random Forest"] = accuracy_score(y_test, rf_pred)
 predictions["Random Forest"] = rf_pred
 
-# ---------- XGBoost ----------
 xgb = XGBClassifier(
     n_estimators=400,
     learning_rate=0.05,
@@ -108,7 +98,6 @@ results["XGBoost"] = f1_score(y_test, xgb_pred)
 accuracies["XGBoost"] = accuracy_score(y_test, xgb_pred)
 predictions["XGBoost"] = xgb_pred
 
-# ================= PRINT RESULTS =================
 print("\n===== MODEL PERFORMANCE =====")
 
 for model in results:
@@ -117,7 +106,6 @@ for model in results:
     print(f"F1 Score: {results[model]:.4f}")
     print(classification_report(y_test, predictions[model]))
 
-# ================= CONFUSION MATRICES =================
 for model, pred in predictions.items():
     plt.figure(figsize=(4,3))
     sns.heatmap(confusion_matrix(y_test, pred), annot=True, fmt='d')
@@ -126,29 +114,21 @@ for model, pred in predictions.items():
     plt.ylabel("Actual")
     plt.show()
 
-# ================= BEST MODEL =================
 best_model_name = max(results, key=results.get)
 print("\nBest Model (based on F1 Score):", best_model_name)
 
-# ================= SAVE ALL MODELS PROPERLY =================
-
-# Logistic
 with open("../model/logistic_recovery_model.pkl", "wb") as f:
     pickle.dump((lr, scaler), f)
-
-# SVM
+    
 with open("../model/svm_recovery_model.pkl", "wb") as f:
     pickle.dump((svm, scaler), f)
-
-# KNN
+    
 with open("../model/knn_recovery_model.pkl", "wb") as f:
     pickle.dump((knn, scaler), f)
 
-# Random Forest (no scaler needed)
 with open("../model/random_forest_recovery_model.pkl", "wb") as f:
     pickle.dump(rf, f)
 
-# XGBoost (no scaler needed)
 with open("../model/xgboost_recovery_model.pkl", "wb") as f:
     pickle.dump(xgb, f)
 
@@ -162,13 +142,11 @@ f1_scores = [results[m] for m in sorted_models]
 
 plt.figure(figsize=(14,7))
 
-# Colors
 colors = sns.color_palette("viridis", len(sorted_models))
-colors[0] = (0.0, 0.6, 0.2)  # highlight best
+colors[0] = (0.0, 0.6, 0.2)  
 
 bars = plt.bar(sorted_models, f1_scores, color=colors, edgecolor='black', linewidth=1.5)
 
-# Labels
 for bar in bars:
     yval = bar.get_height()
     plt.text(
@@ -180,13 +158,8 @@ for bar in bars:
         fontweight='bold'
     )
 
-# ✅ YOUR REQUIRED SCALING
 plt.ylim(0.6, 1.0)
-
-# Step scaling (IMPORTANT)
-plt.yticks(np.arange(0.6, 1.01, 0.05))   # 0.6, 0.65, 0.7 ... 1.0
-
-# Titles
+plt.yticks(np.arange(0.6, 1.01, 0.05))  
 plt.title("Model Comparison (F1 Score)", fontsize=20, fontweight='bold')
 plt.xlabel("Models", fontsize=14)
 plt.ylabel("F1 Score", fontsize=14)
@@ -198,7 +171,6 @@ plt.grid(axis='y', linestyle='--', alpha=0.6)
 
 plt.tight_layout()
 plt.show()
-# ================= FINAL =================
 print("\n===== FINAL F1 SCORES =====")
 for m in sorted_models:
     print(f"{m}: {results[m]:.4f}")
