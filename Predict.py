@@ -3,7 +3,6 @@ import pandas as pd
 
 print("\n=== Student Academic Recovery Prediction ===\n")
 
-# ================= MODEL SELECTION =================
 print("Select Model:")
 print("1. Logistic Regression")
 print("2. SVM")
@@ -17,7 +16,6 @@ except:
     print("Invalid input")
     exit()
 
-# ================= LOAD MODEL =================
 scaler = None
 
 if choice == 1:
@@ -49,7 +47,6 @@ else:
     print("Invalid choice")
     exit()
 
-# ================= USER INPUT =================
 try:
     age = int(input("Enter Age at enrollment: "))
     enrolled = int(input("Enter number of curricular units enrolled (1st sem): "))
@@ -60,7 +57,6 @@ except:
     print("Invalid input. Please enter numeric values.")
     exit()
 
-# ================= CREATE DATAFRAME =================
 student_data = pd.DataFrame([{
     'Age at enrollment': age,
     'Curricular units 1st sem (enrolled)': enrolled,
@@ -69,11 +65,9 @@ student_data = pd.DataFrame([{
     'Scholarship holder': scholarship
 }])
 
-# ================= APPLY SCALING =================
 if scaler is not None:
     student_data = scaler.transform(student_data)
 
-# ================= PREDICTION =================
 prediction = model.predict(student_data)
 
 print(f"\n--- Prediction using {model_name} ---")
@@ -83,7 +77,6 @@ if prediction[0] == 1:
 else:
     print("❌ Student is NOT likely to recover")
 
-# ================= PROBABILITY =================
 if hasattr(model, "predict_proba"):
     probability = model.predict_proba(student_data)
     print(f"📊 Recovery Probability: {probability[0][1]*100:.2f}%")
