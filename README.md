@@ -1,93 +1,170 @@
-Student Academic Recovery Prediction
+# 🎓 Student Academic Recovery Prediction
 
 A machine learning project that predicts whether a student is likely to recover academically using early-semester academic performance indicators.
 
-📌 Project Overview
+---
+
+## 📌 Project Overview
 
 Early identification of academically at-risk students is essential for timely intervention.
-This project applies supervised machine learning techniques to predict student academic recovery based on early-semester data such as enrolled units, evaluated units, approved units, age, and scholarship status. Additionally, multiple machine learning models were compared to identify the most effective approach for prediction.
+This project applies supervised machine learning techniques to predict student academic recovery using early-semester data such as enrolled units, evaluated units, approved units, age, and scholarship status.
 
-The goal is to provide an early predictive signal before final academic outcomes are known.
+Multiple machine learning models were implemented and compared to identify the most effective approach for prediction.
 
-📊 Dataset
+👉 The goal is to provide an **early predictive signal before final academic outcomes are known**, enabling proactive academic support.
 
-Name: Student Dropout and Academic Success Dataset
+---
 
-Source: Kaggle
+## 📊 Dataset
 
-Link: https://www.kaggle.com/datasets/mahwiz/students-dropout-and-academic-success-dataset
+* **Name:** Student Dropout and Academic Success Dataset
+* **Source:** Kaggle
+* **Link:** https://www.kaggle.com/datasets/mahwiz/students-dropout-and-academic-success-dataset
 
 The dataset contains anonymized academic and demographic data of higher education students, including:
 
-Age at enrollment
+* Age at enrollment
+* Curricular units enrolled (1st semester)
+* Curricular units evaluated (1st semester)
+* Curricular units approved (1st semester)
+* Scholarship status
+* Final academic outcome (Target)
 
-Curricular units enrolled (1st semester)
+---
 
-Curricular units evaluated (1st semester)
-
-Curricular units approved (1st semester)
-
-Scholarship status
-
-Final academic outcome (Target)
-
-🧠 Problem Statement
+## 🧠 Problem Statement
 
 Traditional academic evaluation systems identify struggling students too late.
-This project aims to predict academic recovery using early academic indicators to enable proactive intervention.
+This project aims to predict academic recovery using early academic indicators to enable **timely and proactive intervention**.
 
-🎯 Objective
+---
+
+## 🎯 Objective
 
 To build a machine learning model that predicts whether a student is likely to recover academically using early-semester academic performance data.
 
-⚙️ Machine Learning Models Used
+---
+
+## ⚙️ Machine Learning Models Used
 
 1. Logistic Regression (Baseline Model)
-2. Linear Regression (Converted for classification comparison)
-3. Support Vector Machine (SVM)
-4. Random Forest Classifier (Final Model)
+2. Support Vector Machine (SVM)
+3. K-Nearest Neighbors (KNN)
+4. Random Forest Classifier
+5. XGBoost Classifier (Best Performing Model)
 
-🔍 Model Comparison
+---
 
-Multiple models were implemented to compare performance and ensure robust prediction.
+## 🔍 Model Comparison
 
-- Logistic Regression was used as a baseline model.
-- Linear Regression was used for comparative analysis after converting outputs into classification labels.
-- Support Vector Machine (SVM) was used to handle complex decision boundaries.
-- Random Forest was selected as the final model due to its ability to capture non-linear relationships.
+Multiple supervised learning models were implemented and evaluated:
 
-The models were compared using evaluation metrics such as Accuracy, Precision, Recall, F1-score, and Confusion Matrix.
+* **Logistic Regression** – Used as a baseline model
+* **SVM** – Effective for handling complex decision boundaries
+* **KNN** – Instance-based learning for comparison
+* **Random Forest** – Captures non-linear relationships using ensemble learning
+* **XGBoost** – Gradient boosting technique that improves performance by correcting previous errors
 
+📌 **Best Model:** XGBoost
+📌 **Reason:** Highest F1-score and better handling of complex patterns in data
 
-📈 Model Evaluation Metrics
+---
+
+## 📈 Model Evaluation Metrics
 
 The models were evaluated using:
 
-1. Accuracy – Overall correctness of predictions  
-2. Precision – Correct positive predictions  
-3. Recall – Ability to identify actual positive cases  
-4. F1-Score – Balance between precision and recall  
-5. Confusion Matrix – Detailed class-wise prediction analysis  
-6. Feature Importance – Identifies most impactful features (for Random Forest)
-   
+1. **Accuracy** – Overall correctness
+2. **Precision** – Correct positive predictions
+3. **Recall** – Ability to detect actual positives
+4. **F1-Score** – Balance between precision and recall (**Primary Metric**)
+5. **Confusion Matrix** – Class-wise performance analysis
 
-**Features Used**
+---
 
-1.Age at Enrollment
+## 📊 Model Performance (F1 Score)
 
-2.Curricular Units Enrolled (1st Semester)
+| Model         | F1 Score |
+| ------------- | -------- |
+| XGBoost       | ~0.90    |
+| SVM           | ~0.89    |
+| Logistic      | ~0.89    |
+| Random Forest | ~0.89    |
+| KNN           | ~0.88    |
 
-3.Curricular Units Evaluated (1st Semester)
+---
 
-4.Curricular Units Approved (1st Semester)
+## 🧾 Features Used
 
-5.Scholarship Holder
+The following features were selected based on early availability and relevance:
 
-These features were selected based on:
+1. Age at Enrollment
+2. Curricular Units Enrolled (1st Semester)
+3. Curricular Units Evaluated (1st Semester)
+4. Curricular Units Approved (1st Semester)
+5. Scholarship Holder
 
-1.Early availability
+### 🔎 Feature Selection Rationale
 
-2.Relevance to academic performance
+* Available early in academic timeline
+* Strong correlation with academic performance
+* Supported by literature and domain understanding
 
-3.Literature review comparison
+---
 
+## 📌 Key Insight
+
+Students who **approve more curricular units in the first semester** are significantly more likely to recover academically.
+
+---
+
+## 🚀 How to Run
+
+### 1. Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### 2. Train models
+
+```
+python src/train_model.py
+```
+
+### 3. Make predictions
+
+```
+python src/Predict.py
+```
+
+### 4. View feature importance
+
+```
+python src/feature_importance.py
+```
+
+---
+
+## 📈 Visualizations
+
+* Model comparison graph (F1 Score)
+* Confusion matrices for all models
+* Feature importance plots
+
+---
+
+## 🔮 Future Improvements
+
+* Include additional demographic and behavioral features
+* Apply advanced hyperparameter tuning
+* Deploy as a web application
+* Integrate real-time academic monitoring system
+
+---
+
+## 📌 Conclusion
+
+This project demonstrates how machine learning can be effectively used for **early prediction of academic recovery**, helping institutions take proactive steps to support students and improve outcomes.
+
+---
