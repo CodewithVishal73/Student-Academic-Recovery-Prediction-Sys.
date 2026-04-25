@@ -13,7 +13,6 @@ feature_names = [
     'Scholarship holder'
 ]
 
-# ================= RANDOM FOREST =================
 with open("../model/random_forest_recovery_model.pkl", "rb") as f:
     rf_model = pickle.load(f)
 
@@ -32,7 +31,6 @@ plt.tight_layout()
 plt.show()
 
 
-# ================= LOGISTIC =================
 with open("../model/logistic_recovery_model.pkl", "rb") as f:
     log_model, scaler = pickle.load(f)
 
@@ -53,7 +51,6 @@ plt.tight_layout()
 plt.show()
 
 
-# ================= XGBOOST =================
 with open("../model/xgboost_recovery_model.pkl", "rb") as f:
     xgb_model = pickle.load(f)
 
